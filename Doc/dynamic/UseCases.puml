@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+actor user
+
+usecase createUser
+usecase login
+usecase menu
+usecase categories
+usecase titleSearch
+usecase watchedList
+usecase savedList
+usecase add
+usecase play
+usecase delete
+usecase backToMenu
+usecase media
+
+top to bottom direction
+user --> createUser
+user --> login
+
+createUser --> login
+
+login --> menu
+
+menu <--> watchedList
+menu <--> savedList
+menu <--> categories
+menu <--> titleSearch
+
+titleSearch --> media
+
+media --> play
+media --> add
+media --> backToMenu
+
+savedList --> delete
+savedList --> play
+savedList <---> backToMenu
+
+watchedList --> backToMenu
+watchedList --> play
+
+categories --> backToMenu
+categories --> media
+
+backToMenu --> menu
+
+play --> backToMenu
+add --> backToMenu
+delete --> backToMenu
+savedList --> backToMenu
+
+@enduml

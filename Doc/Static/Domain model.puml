@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+object streaming
+object user
+object Movie
+object serie
+object SavedList
+object Search
+object WatchedList
+object list
+'object Play
+'object Delete
+'object Add
+'object Save
+
+
+
+streaming <--> user
+
+
+user o-- SavedList
+user o-- WatchedList
+user *-- Search
+user *-- list
+
+
+Search *-- Movie
+WatchedList <|-- Movie
+SavedList <|-- Movie
+list *-- Movie
+
+Search *-- serie
+WatchedList <|-- serie
+SavedList <|-- serie
+list *-- serie
+
+
+
+
+
+@enduml

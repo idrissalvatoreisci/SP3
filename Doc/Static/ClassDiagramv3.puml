@@ -1,0 +1,175 @@
+@startuml
+
+class Main {
++ static void main(String[] args)
+}
+package application{
+interface IMedia {
++ String playMedia()
+'+ pauseMedia()
+}
+
+abstract AMedia {
+- String title
+- String category
++ void playMedia(AMedia media)
++ void saveToWatchedList()
++ String getTitle()
+
+}
+
+class Movie {
+    String title
+    ArrayList<String> category
+    float rating
+
+    + Movie(String title, ArrayList<String> category, float rating)
+
+    + void playMedia(AMedia media)
+    + String getTitle()
+    + String toString()
+}
+
+class Catelog{
+- ArrayList<AMedia> Series
+- ArrayList<AMedia> Movie
+- FileIO io
+
++ ArrayList<AMedia> showMovieCatalog()
++ ArrayList<AMedia> showSereiesCatalog()
++ ArrayList<AMedia> createMovieFromString()
++ ArrayList<AMedia> createSerieFromString()
++ void addMovieToCatalog()
+}
+
+
+class Series {
+    int episode
+    int season
+    String title
+    String category
+    float rating
+
+    +playMedia(AMedia media)
+}
+class Episode{
+
+}
+}
+
+package domain{
+class User {
+- String username
+- String password
+- Search search
+- LinkedHashSet<AMedia> watchedList
+- LinkedHashSet<AMedia> savedList
+
+User(String username, String password)
+
++ String getUsername()
++ String getPassword()
++ void viewWatchedList()
++ void viewSavedList()
+}
+}
+
+class Streaming {
+- String name
+- User currentUser
+- TextUI ui
+- FileIO io
+- Search search
+- AMedia media
+- ArrayList<User> userList
+-ArrayList<String> startmenu
+-ArrayList<String> mainMenu
+-ArrayList<String> movieList
+Streaming(String name)
++ void startStreaming()
++ void runStreaming()
++ void streaming()
++ User createUser()
++ Boolean login()
++ Boolean checkCredentialAvailability(String credential)
++ void quitStreaming(input)
++ User getCurrentUser()
++ void playMedia(Amedia media)
++ void setCurrentUser(User currentUser)
++ void exitApplication()
+
++ boolean confirmPassword(String password)
++ login(String username, String password)
++ boolean checkUsernameAvailability(String username)
+}
+
+
+package utilty{
+class FileIO {
+- ArrayList<Movie> listOfMovies
+- ArrayList<Series> listOfSeries
+- String moviePath
+- String seriePath
+- String favoritesPath
+- String watchedPath
+- String userSavePath
+
++ ArrayList<String> readMovieData()
++ ArrayList<String> readSerieData()
+- ArrayList<String> scanFile(String path)
++ void saveFavorites(User currentUser, AMedia media)
++ void saveWatched(User currentUser, AMedia media)
+- void saveMedia(User currentUser, AMedia media, String path)
++ String getFavorites(User currentUser)
++ String getWatched(User currentUser)
+- String getMedia(User currentUser, String path)
++ void saveUserData(User currentUser)
++ ArrayList<User> readUserData()
+}
+
+class Search {
++ makeMovieHashMaps(ArrayList<Movie> movieList)
++ makeSeriesHashMaps(ArrayList<Movie> seriesList)
++ List<Movie> searchByTitle(String title, Map<String, List<Movie>> moviesByTitle)
++ List<Movie> searchByCategory(String category, Map<String, List<Movie>> moviesByCategory)
++ List<Movie> searchByRating(double rating, NavigableMap<Double, List<Movie>> moviesByRating)
+}
+class TextUI {
+- Scanner scanner
++ String promptText(String msg)
++ int promptNumeric(String msg)
++ int promptChoice(ArrayList<String> optionslist, String msg)
++ int promptChoiceM(ArrayList<AMedia> optionslist, String msg, int number)
++ void displayList(ArrayList<String> list, String msg)
++ void displayListM(ArrayList<AMedia> list, String msg, int number)
++ void displayMessage(String msg)
+
+
+}
+}
+
+
+Main *-- Streaming
+Streaming *-- Catelog
+Streaming *-- User
+Streaming *-- Search
+Streaming *-- TextUI
+Catelog <|-- IMedia
+IMedia <|-- AMedia
+Streaming *-- FileIO
+AMedia <|-- Movie
+AMedia  <|-- Series
+Series *-- Episode
+Movie o-- Episode
+
+'https://devhints.io/plantuml
+'Car <|-- SmallCar      # extension
+'Car *-- Engine         # composition
+'Cars o-- Car           # aggregation
+'Car <|.. SmallCar      # dotted line (use .. instead of --)
+'Car <|--* Car
+
+'-left->
+'-right->
+
+@enduml
